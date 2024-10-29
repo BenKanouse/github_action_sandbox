@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  if_merged:
+  merge_into_develop:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
