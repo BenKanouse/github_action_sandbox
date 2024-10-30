@@ -9,7 +9,7 @@ on:
 jobs:
   create_and_push_tags:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
