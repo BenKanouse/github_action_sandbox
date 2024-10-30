@@ -2,18 +2,21 @@ name: Create a pull request for the release
 on:
   push:
     branches:
-      - release/*
+      - release/**
 
 jobs:
-  create_release_pull_request:
+  some_job:
+    name: some_name
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: main
+      - name: some_name
+        run: |
+          gh pr create -B main -H ${{ github.head_ref || github.ref_name }} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        env:
+         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
