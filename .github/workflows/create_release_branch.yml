@@ -1,12 +1,7 @@
-name: Create release branch
+name: Create Release Pull Request
 
 on:
   workflow_dispatch:
-    inputs:
-      version_number:
-        description: 'Version number to be used in the branch name'
-        required: true
-        type: string
 
 jobs:
   create_release_pr:
@@ -14,13 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: create_branch
         run: |
-          git checkout -b release/${{inputs.version_number}}
+          git checkout -b release
           git push origin HEAD
+          gh pr create -B main -H release --title 'Merge release into main' --body 'Created by Github action'
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
