@@ -1,0 +1,26 @@
+name: Create release branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_number:
+        description: 'Version number to be used in the branch name'
+        required: true
+        type: string
+
+jobs:
+  create_release_pr:
+    name: Create Release Pull Request
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: create_branch
+        run: |
+          git checkout -b release/${{inputs.version_number}}
+          git push origin HEAD
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
