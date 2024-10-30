@@ -20,7 +20,8 @@ jobs:
           fetch-depth: 0
       - name: create_branch
         run: |
-          git checkout -b release/${{inputs.version_number}}
+          git checkout -b release
           git push origin HEAD
+          gh pr create -B main -H release --title 'Merge release into main' --body 'Created by Github action'
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
