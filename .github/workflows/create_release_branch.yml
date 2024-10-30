@@ -25,6 +25,7 @@ jobs:
           fetch-depth: 0
       - name: create_branch
         run: |
+          git config --global user.email 'github_robot@modolabs.com'
           git config --global user.name "GitHub Robot"
           git checkout -b automated_release
           git commit --allow-empty -m "The patch level is #$VERSION_LEVEL"
