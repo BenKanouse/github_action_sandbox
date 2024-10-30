@@ -2,6 +2,15 @@ name: Create Release Pull Request
 
 on:
   workflow_dispatch:
+    inputs:
+      version_level:
+        type: choice
+        name: Version Level
+        description: The release version bump major.minor.patch
+        options:
+        - patch
+        - minor
+        - major
 
 jobs:
   create_release_pr:
@@ -16,8 +25,11 @@ jobs:
           fetch-depth: 0
       - name: create_branch
         run: |
-          git checkout -b release
+          git config --global user.name "GitHub Robot"
+          git checkout -b automated_release
+          git commit --allow-empty -m "The patch level is #$VERSION_LEVEL"
           git push origin HEAD
-          gh pr create -B main -H release --title 'Merge release into main' --body 'Created by Github action'
+          gh pr create -B main -H automated_release --title 'Merge release into main' --body 'Created by Github action'
         env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION_LEVEL: ${{ inputs.version_level }}
