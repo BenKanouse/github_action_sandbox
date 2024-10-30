@@ -7,19 +7,18 @@ on:
       - main
 
 jobs:
-  create_backmerge_pr:
+  create_backmerge_pull_request:
     if: github.event.pull_request.merged == true
     name: Create back-merge Pull Request
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: some_name
         run: |
           gh pr create -B develop -H main --title 'Merge main into develop' --body 'Created by Github action'
         env:
-         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
